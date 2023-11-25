@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Card } from "antd";
 import { Button, Checkbox, Form, Input, message } from "antd";
-import "./index.scss";
 import logo from "assets/logo.png";
 import { loginAPI } from "../../api/user";
+import styles from "./index.module.scss";
 
 class Login extends Component {
   onFinish = async (values) => {
@@ -20,7 +20,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className={"login"}>
+      <div className={styles.login}>
         <Card className={"login-container"}>
           <img className={"logo"} src={logo} />
 
