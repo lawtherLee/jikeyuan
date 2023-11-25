@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import { Card } from "antd";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import "./index.scss";
 import logo from "assets/logo.png";
+import { loginAPI } from "../../api/user";
 
 class Login extends Component {
-  onFinish = (values) => {
+  onFinish = async (values) => {
     console.log(values);
+    try {
+      const res = await loginAPI(values);
+      localStorage.setItem("jky_token", JSON.stringify(res.data));
+      message.success("登录成功");
+      this.props.history.push("/home");
+    } catch (err) {
+      message.error("登录失败");
+    }
   };
 
   render() {
