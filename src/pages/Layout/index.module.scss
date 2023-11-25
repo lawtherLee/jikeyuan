@@ -1,5 +1,27 @@
 .layout {
+  height: 100vh;
+
   :global {
-    
+    .ant-layout {
+      height: 100%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+
+      .logo {
+        width: 200px;
+        height: 60px;
+        background: url('~assets/logo.png') no-repeat;
+        background-size: cover;
+      }
+
+      .right {
+        display: flex;
+        padding-right: 30px;
+      }
+    }
   }
 }
