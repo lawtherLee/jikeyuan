@@ -11,6 +11,8 @@ import {
   FormOutlined,
   CopyOutlined,
 } from "@ant-design/icons";
+import { Link, Route } from "react-router-dom";
+import Home from "../Home";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -32,9 +34,19 @@ class LayoutIndex extends Component {
 
   getMenus() {
     const menus = [
-      { id: 1, name: "数据概览", icon: "icon-data" },
-      { id: 2, name: "内容管理", icon: "icon-content" },
-      { id: 3, name: "发布文章", icon: "icon-publish" },
+      { id: 1, name: "数据概览", path: "/home", icon: "icon-data" },
+      {
+        id: 2,
+        name: "内容管理",
+        path: "/home/article",
+        icon: "icon-content",
+      },
+      {
+        id: 3,
+        name: "发布文章",
+        path: "/home/publish",
+        icon: "icon-publish",
+      },
     ];
     this.setState({
       menus: menus,
@@ -67,17 +79,12 @@ class LayoutIndex extends Component {
               >
                 {menus.map((item) => (
                   <Menu.Item key={item.id} icon={menuIcon[item.icon]}>
-                    {item.name}
+                    <Link to={item.path}>{item.name}</Link>
                   </Menu.Item>
                 ))}
               </Menu>
             </Sider>
-            <Layout style={{ padding: "0 24px 24px" }}>
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
-                <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb>
+            <Layout style={{ padding: "20px" }}>
               <Content
                 className="site-layout-background"
                 style={{
@@ -86,7 +93,7 @@ class LayoutIndex extends Component {
                   minHeight: 280,
                 }}
               >
-                Content
+                <Route exact path={"/home"} component={Home}></Route>
               </Content>
             </Layout>
           </Layout>
