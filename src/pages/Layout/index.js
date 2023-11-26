@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 
 import styles from "./index.module.scss";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, message, Popconfirm } from "antd";
 import {
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
   LoginOutlined,
   HomeOutlined,
   FormOutlined,
@@ -13,8 +10,9 @@ import {
 } from "@ant-design/icons";
 import { Link, Route } from "react-router-dom";
 import Home from "../Home";
+import Article from "../Article";
+import Publish from "../Publish";
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 const menuIcon = {
@@ -53,6 +51,13 @@ class LayoutIndex extends Component {
     });
   }
 
+  logout = async () => {
+    console.log(111);
+    localStorage.removeItem("jky_token");
+    await this.props.history.push("/login");
+    message.success("退出成功");
+  };
+
   render() {
     const { menus } = this.state;
     return (
@@ -62,10 +67,17 @@ class LayoutIndex extends Component {
             <div className="logo" />
             <div className={"right"}>
               <span style={{ margin: "0 10px" }}>13111111111</span>
-              <div>
-                <LoginOutlined />
-                <span>退出</span>
-              </div>
+              <Popconfirm
+                onConfirm={this.logout}
+                title="是否退出?"
+                okText="Yes"
+                cancelText="No"
+              >
+                <div style={{ cursor: "pointer" }}>
+                  <LoginOutlined />
+                  <span>退出</span>
+                </div>
+              </Popconfirm>
             </div>
           </Header>
           <Layout>
@@ -94,6 +106,8 @@ class LayoutIndex extends Component {
                 }}
               >
                 <Route exact path={"/home"} component={Home}></Route>
+                <Route exact path={"/home/article"} component={Article}></Route>
+                <Route exact path={"/home/publish"} component={Publish}></Route>
               </Content>
             </Layout>
           </Layout>
