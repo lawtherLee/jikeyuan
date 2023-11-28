@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Layout from "./pages/Layout";
+import AuthRoute from "./components/AuthRoute";
 
 class App extends Component {
   render() {
@@ -10,7 +11,7 @@ class App extends Component {
         <div>
           <Switch>
             <Route path={"/login"} component={Login} />
-            <Route path={"/home"} component={Layout} />
+            <AuthRoute path={"/home"} component={Layout} />
           </Switch>
         </div>
       </BrowserRouter>

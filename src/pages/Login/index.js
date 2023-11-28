@@ -4,13 +4,14 @@ import { Button, Checkbox, Form, Input, message } from "antd";
 import logo from "assets/logo.png";
 import { loginAPI } from "../../api/user";
 import styles from "./index.module.scss";
+import { setToken } from "../../utils/storage";
 
 class Login extends Component {
   onFinish = async (values) => {
     console.log(values);
     try {
       const res = await loginAPI(values);
-      localStorage.setItem("jky_token", JSON.stringify(res.data));
+      setToken(JSON.stringify(res.data));
       message.success("登录成功");
       this.props.history.push("/home");
     } catch (err) {

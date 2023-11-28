@@ -12,6 +12,7 @@ import { Link, Route } from "react-router-dom";
 import Home from "../Home";
 import Article from "../Article";
 import Publish from "../Publish";
+import { removeToken } from "../../utils/storage";
 
 const { Header, Content, Sider } = Layout;
 
@@ -53,7 +54,7 @@ class LayoutIndex extends Component {
 
   logout = async () => {
     console.log(111);
-    localStorage.removeItem("jky_token");
+    removeToken();
     await this.props.history.push("/login");
     message.success("退出成功");
   };
