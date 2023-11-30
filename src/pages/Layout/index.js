@@ -87,12 +87,12 @@ class LayoutIndex extends Component {
               <Menu
                 theme={"dark"}
                 mode="inline"
-                defaultSelectedKeys={["1"]}
+                defaultSelectedKeys={[this.props.location.pathname]}
                 defaultOpenKeys={["sub1"]}
                 style={{ height: "100%", borderRight: 0 }}
               >
                 {menus.map((item) => (
-                  <Menu.Item key={item.id} icon={menuIcon[item.icon]}>
+                  <Menu.Item key={item.path} icon={menuIcon[item.icon]}>
                     <Link to={item.path}>{item.name}</Link>
                   </Menu.Item>
                 ))}
