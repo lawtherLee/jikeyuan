@@ -4,15 +4,24 @@ import { getToken } from "../../utils/storage";
 
 class AuthRoute extends Component {
   render() {
-    const { path, component: Component } = this.props;
+    const { component: Component, ...rest } = this.props;
     return (
       <Route
-        path={path}
+        {...rest}
         render={(props) => {
           console.log(props);
           const token = getToken();
           if (token) return <Component {...props} />;
-          return <Redirect to={"/login"} />;
+          return (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {
+                  fromPath: props.location.pathname,
+                },
+              }}
+            />
+          );
         }}
       />
     );

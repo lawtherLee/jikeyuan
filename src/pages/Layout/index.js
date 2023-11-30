@@ -13,6 +13,7 @@ import Home from "../Home";
 import Article from "../Article";
 import Publish from "../Publish";
 import { removeToken } from "../../utils/storage";
+import AuthRoute from "../../components/AuthRoute";
 
 const { Header, Content, Sider } = Layout;
 
@@ -107,8 +108,16 @@ class LayoutIndex extends Component {
                 }}
               >
                 <Route exact path={"/home"} component={Home}></Route>
-                <Route exact path={"/home/article"} component={Article}></Route>
-                <Route exact path={"/home/publish"} component={Publish}></Route>
+                <AuthRoute
+                  exact
+                  path={"/home/article"}
+                  component={Article}
+                ></AuthRoute>
+                <AuthRoute
+                  exact
+                  path={"/home/publish"}
+                  component={Publish}
+                ></AuthRoute>
               </Content>
             </Layout>
           </Layout>

@@ -13,13 +13,19 @@ class Login extends Component {
       const res = await loginAPI(values);
       setToken(JSON.stringify(res.data));
       message.success("登录成功");
-      this.props.history.push("/home");
+      const { state } = this.props.location;
+      if (state && state.fromPath) {
+        this.props.history.push(state.fromPath);
+      } else {
+        this.props.history.push("/home");
+      }
     } catch (err) {
       message.error("登录失败");
     }
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className={styles.login}>
         <Card className={"login-container"}>
