@@ -7,3 +7,9 @@ export const loginAPI = (data) => {
     data,
   });
 };
+
+export const getUserInfoAPI = () => {
+  return request({
+    url: "/v1_0/user/profile",
+  });
+};

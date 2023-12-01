@@ -14,6 +14,7 @@ import Article from "../Article";
 import Publish from "../Publish";
 import { removeToken } from "../../utils/storage";
 import AuthRoute from "../../components/AuthRoute";
+import { getUserInfoAPI } from "../../api/user";
 
 const { Header, Content, Sider } = Layout;
 
@@ -26,10 +27,19 @@ const menuIcon = {
 class LayoutIndex extends Component {
   state = {
     menus: [],
+    profile: {},
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getMenus();
+    await this.getUserInfo();
+  }
+
+  async getUserInfo() {
+    const res = await getUserInfoAPI();
+    this.setState({
+      profile: res.data,
+    });
   }
 
   getMenus() {
@@ -68,7 +78,9 @@ class LayoutIndex extends Component {
           <Header style={{ padding: 0 }} className="header">
             <div className="logo" />
             <div className={"right"}>
-              <span style={{ margin: "0 10px" }}>13111111111</span>
+              <span style={{ margin: "0 10px" }}>
+                {this.state.profile.mobile}
+              </span>
               <Popconfirm
                 onConfirm={this.logout}
                 title="是否退出?"

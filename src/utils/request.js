@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./storage";
 
 const instance = axios.create({
   baseURL: "http://geek.itheima.net/",
@@ -8,6 +9,10 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   function (config) {
+    const token = JSON.parse(getToken());
+    if (token) {
+      config.headers.Authorization = "Bearer " + token.token;
+    }
     return config;
   },
   function (error) {
