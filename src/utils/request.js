@@ -1,5 +1,7 @@
 import axios from "axios";
-import { getToken } from "./storage";
+import { getToken, removeToken } from "./storage";
+import { message } from "antd";
+import history from "./history";
 
 const instance = axios.create({
   baseURL: "http://geek.itheima.net/",
@@ -25,7 +27,13 @@ instance.interceptors.response.use(
   function (response) {
     return response.data;
   },
-  function (error) {
+  async function (error) {
+    if (error.response && error.response.status === 401) {
+      await message.error("token过期了");
+      // window.location.href = "/login"; 会刷新
+      history.push("/login");
+      removeToken();
+    }
     return Promise.reject(error);
   },
 );

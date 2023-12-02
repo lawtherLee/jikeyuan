@@ -9,7 +9,6 @@ class AuthRoute extends Component {
       <Route
         {...rest}
         render={(props) => {
-          console.log(props);
           const token = getToken();
           if (token) return <Component {...props} />;
           return (
