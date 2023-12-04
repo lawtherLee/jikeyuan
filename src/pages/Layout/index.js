@@ -71,6 +71,7 @@ class LayoutIndex extends Component {
   };
 
   render() {
+    console.log(123);
     const { menus } = this.state;
     return (
       <div className={styles.layout}>
@@ -99,7 +100,7 @@ class LayoutIndex extends Component {
               <Menu
                 theme={"dark"}
                 mode="inline"
-                defaultSelectedKeys={[this.props.location.pathname]}
+                selectedKeys={[this.props.location.pathname]}
                 defaultOpenKeys={["sub1"]}
                 style={{ height: "100%", borderRight: 0 }}
               >
