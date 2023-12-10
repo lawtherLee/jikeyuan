@@ -111,7 +111,7 @@ class LayoutIndex extends Component {
                 ))}
               </Menu>
             </Sider>
-            <Layout style={{ padding: "20px" }}>
+            <Layout style={{ padding: "20px", overflow: "scroll" }}>
               <Content
                 className="site-layout-background"
                 style={{

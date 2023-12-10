@@ -2,8 +2,13 @@
   height: 100vh;
 
   :global {
+    .ant-layout-content {
+      min-height: unset !important;
+    }
+
     .ant-layout {
       height: 100%;
+      overflow: hidden;
     }
 
     .header {
@@ -26,6 +31,8 @@
 
     .site-layout-background {
       background: white;
+      //height: 100vh;
+      //overflow: scroll;
     }
   }
 }
