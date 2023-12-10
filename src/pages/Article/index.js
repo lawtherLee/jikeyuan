@@ -10,10 +10,12 @@ import {
   Alert,
   Table,
   Image,
+  Tag,
 } from "antd";
 import styles from "./index.module.scss";
 import { getAllChannelsAPI } from "../../api/channel";
 import { getArticleListAPI } from "../../api/article";
+import { status } from "../../api/constant";
 
 const { RangePicker } = DatePicker;
 
@@ -42,6 +44,9 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
+    render: (text, record) => {
+      return <Tag color={status[text].color}>{status[text].text}</Tag>;
+    },
   },
   {
     title: "发布时间",
