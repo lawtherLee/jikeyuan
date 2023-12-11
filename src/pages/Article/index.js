@@ -16,6 +16,7 @@ import styles from "./index.module.scss";
 import { getAllChannelsAPI } from "../../api/channel";
 import { getArticleListAPI } from "../../api/article";
 import { status } from "../../api/constant";
+import { DeleteOutlined, EditFilled } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 
@@ -72,6 +73,14 @@ const columns = [
     title: "操作",
     dataIndex: "action",
     key: "action",
+    render: () => {
+      return (
+        <>
+          <Button type="primary" shape="circle" icon={<EditFilled />} />
+          <Button type="danger" shape="circle" icon={<DeleteOutlined />} />
+        </>
+      );
+    },
   },
 ];
 
@@ -174,7 +183,11 @@ class Article extends Component {
           </Form.Item>
         </Form>
         <Alert message={`总条数：${this.state.total}`} type="success" />
-        <Table dataSource={this.state.articles} columns={columns} />
+        <Table
+          rowKey={"id"}
+          dataSource={this.state.articles}
+          columns={columns}
+        />
       </div>
     );
   }
