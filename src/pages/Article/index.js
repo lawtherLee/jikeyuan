@@ -90,6 +90,10 @@ class Article extends Component {
     articles: [],
     total: 0,
     status: -1,
+    pages: {
+      page: 1,
+      per_page: 1,
+    },
   };
 
   radioChange = (val) => {
@@ -106,11 +110,11 @@ class Article extends Component {
       params.end_pubdate = values.time[1].format("YYYY-MM-DDD");
     }
     params.channel_id = values.channel_id;
-    const res = await getArticleListAPI(params);
-    console.log(res);
+    const res = await getArticleListAPI({ ...params, ...this.state.pages });
     this.setState({
       articles: res.data.results,
       total: res.data.total_count,
+      filterParams: params,
     });
   };
 
@@ -128,6 +132,18 @@ class Article extends Component {
         channelList: data,
       });
     } catch (err) {}
+  };
+
+  onPageChange = async (page) => {
+    const res = await getArticleListAPI({
+      page,
+      per_page: this.state.pages.per_page,
+      ...this.state.filterParams,
+    });
+    this.setState({
+      articles: res.data.results,
+      page,
+    });
   };
 
   async componentDidMount() {
@@ -184,6 +200,12 @@ class Article extends Component {
         </Form>
         <Alert message={`总条数：${this.state.total}`} type="success" />
         <Table
+          pagination={{
+            current: this.state.pages.page,
+            pageSize: this.state.pages.per_page,
+            total: this.state.total,
+            onChange: this.onPageChange,
+          }}
           rowKey={"id"}
           dataSource={this.state.articles}
           columns={columns}
