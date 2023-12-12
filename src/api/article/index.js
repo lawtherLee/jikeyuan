@@ -10,3 +10,15 @@ export const getArticleListAPI = (params) => {
     params,
   });
 };
+
+/**
+ * 删除文章
+ * @param id
+ * @returns {*}
+ */
+export const delArticleAPI = (id) => {
+  return request({
+    url: "/v1_0/mp/articles" + id,
+    method: "delete",
+  });
+};
