@@ -147,7 +147,11 @@ class Article extends Component {
     });
     this.setState({
       articles: res.data.results,
-      page,
+      total: res.data.total_count,
+      pages: {
+        ...this.state.pages,
+        page,
+      },
     });
   };
 
@@ -160,11 +164,14 @@ class Article extends Component {
           articles: articles.filter((item) => item.id !== record.id),
           pages: {
             ...pages,
-            page: articles.length === 1 ? pages.page - 1 : pages.page,
+            page:
+              articles.length === 1 && pages.page !== 1
+                ? pages.page - 1
+                : pages.page,
           },
         },
         () => {
-          this.onPageChange();
+          this.onPageChange(pages.page);
         },
       );
       message.success("删除成功");
