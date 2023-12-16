@@ -87,7 +87,14 @@ class Article extends Component {
         render: (text, record) => {
           return (
             <>
-              <Button type="primary" shape="circle" icon={<EditFilled />} />
+              <Button
+                onClick={() =>
+                  this.props.history.push("/home/publish/" + record.id)
+                }
+                type="primary"
+                shape="circle"
+                icon={<EditFilled />}
+              />
               <Button
                 onClick={() => this.delArticle(text, record)}
                 type="danger"

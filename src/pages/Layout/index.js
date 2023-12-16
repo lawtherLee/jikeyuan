@@ -127,7 +127,7 @@ class LayoutIndex extends Component {
                 ></AuthRoute>
                 <AuthRoute
                   exact
-                  path={"/home/publish"}
+                  path={"/home/publish/:id?"}
                   component={Publish}
                 ></AuthRoute>
               </Content>
