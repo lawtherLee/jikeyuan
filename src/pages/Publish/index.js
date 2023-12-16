@@ -53,6 +53,10 @@ class Publish extends Component {
     });
   };
 
+  onSubmit = (values) => {
+    console.log(values);
+  };
+
   render() {
     const { fileList, type, previewImg } = this.state;
     return (
@@ -67,20 +71,35 @@ class Publish extends Component {
         <Divider />
 
         {/*发布文章*/}
-        <Form name="basic" labelCol={{ span: 4 }} wrapperCol={{ span: 10 }}>
+        <Form
+          onFinish={this.onSubmit}
+          name="basic"
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 10 }}
+        >
           <Form.Item
             label="标题"
-            name="username"
+            name="title"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "请输入标题",
               },
             ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item label="频道">
+
+          <Form.Item
+            label="频道"
+            name={"channel_id"}
+            rules={[
+              {
+                required: true,
+                message: "请选择频道",
+              },
+            ]}
+          >
             <SelectChannel />
           </Form.Item>
 

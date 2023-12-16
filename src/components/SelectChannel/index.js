@@ -10,7 +10,7 @@ class Index extends Component {
   getAllChannels = async () => {
     try {
       const res = await getAllChannelsAPI();
-      console.log(res);
+      // console.log(res);
       const data = res.data.channels.map((item) => {
         return {
           value: item.id,
@@ -30,9 +30,12 @@ class Index extends Component {
   }
 
   render() {
+    const { value, onChange } = this.props;
     return (
       <div>
         <Select
+          value={value}
+          onChange={onChange}
           placeholder={"请选择频道"}
           style={{
             width: 200,
