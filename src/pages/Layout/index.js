@@ -28,6 +28,7 @@ class LayoutIndex extends Component {
   state = {
     menus: [],
     profile: {},
+    selectKeys: this.props.location.pathname,
   };
 
   async componentDidMount() {
@@ -64,14 +65,21 @@ class LayoutIndex extends Component {
   }
 
   logout = async () => {
-    console.log(111);
     removeToken();
     await this.props.history.push("/login");
     message.success("退出成功");
   };
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.setState({
+        selectKeys: this.props.location.pathname,
+      });
+    }
+  }
+
   render() {
-    const { menus } = this.state;
+    const { menus, selectKeys } = this.state;
     return (
       <div className={styles.layout}>
         <Layout>
@@ -99,7 +107,7 @@ class LayoutIndex extends Component {
               <Menu
                 theme={"dark"}
                 mode="inline"
-                selectedKeys={[this.props.location.pathname]}
+                selectedKeys={selectKeys}
                 defaultOpenKeys={["sub1"]}
                 style={{ height: "100%", borderRight: 0 }}
               >
