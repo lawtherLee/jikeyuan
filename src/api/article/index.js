@@ -23,10 +23,27 @@ export const delArticleAPI = (id) => {
   });
 };
 
+/**
+ * 发布文章
+ * @param data
+ * @returns {*}
+ */
+
 export const publicArticleAPI = (data) => {
   return request({
     url: "/v1_0/mp/articles?draft=" + data.draft,
     method: "post",
     data,
+  });
+};
+
+/**
+ * 获取文章详情
+ * @param id
+ * @returns {*}
+ */
+export const getArticleDetailAPI = (id) => {
+  return request({
+    url: "/v1_0/mp/articles/" + id,
   });
 };

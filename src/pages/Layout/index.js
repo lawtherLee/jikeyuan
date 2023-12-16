@@ -28,7 +28,9 @@ class LayoutIndex extends Component {
   state = {
     menus: [],
     profile: {},
-    selectKeys: this.props.location.pathname,
+    selectKeys: this.props.location.pathname.startsWith("/home/publish")
+      ? "/home/publish"
+      : this.props.location.pathname,
   };
 
   async componentDidMount() {
@@ -73,7 +75,9 @@ class LayoutIndex extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.setState({
-        selectKeys: this.props.location.pathname,
+        selectKeys: this.props.location.pathname.startsWith("/home/publish")
+          ? "/home/publish"
+          : this.props.location.pathname,
       });
     }
   }

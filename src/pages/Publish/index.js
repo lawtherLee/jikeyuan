@@ -16,7 +16,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import SelectChannel from "components/SelectChannel";
 import { baseURL } from "../../utils/request";
-import { publicArticleAPI } from "../../api/article";
+import { getArticleDetailAPI, publicArticleAPI } from "../../api/article";
 
 class Publish extends Component {
   constructor() {
@@ -96,6 +96,14 @@ class Publish extends Component {
       message.error("信息请补全");
     }
   };
+
+  async componentDidMount() {
+    const id = this.props.match.params.id;
+    if (id) {
+      const res = await getArticleDetailAPI(this.props.match.params.id);
+      console.log(res);
+    }
+  }
 
   render() {
     const { fileList, type, previewImg } = this.state;
