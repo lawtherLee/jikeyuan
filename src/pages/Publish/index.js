@@ -6,6 +6,7 @@ import {
   Form,
   Image,
   Input,
+  message,
   Modal,
   Radio,
   Upload,
@@ -15,6 +16,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import SelectChannel from "components/SelectChannel";
 import { baseURL } from "../../utils/request";
+import { publicArticleAPI } from "../../api/article";
 
 class Publish extends Component {
   state = {
@@ -41,7 +43,6 @@ class Publish extends Component {
   };
 
   onFileChange = (file) => {
-    // console.log(file);
     // always setState
     this.setState({ fileList: [...file.fileList] });
   };
@@ -53,8 +54,25 @@ class Publish extends Component {
     });
   };
 
-  onSubmit = (values) => {
-    console.log(values);
+  onSubmit = async ({ content, channel_id, type, title }) => {
+    if (this.state.type !== this.state.fileList.length)
+      return message.error("图片上传数量不对");
+    const params = {
+      content,
+      channel_id,
+      title,
+      cover: {
+        type,
+        images: this.state.fileList,
+      },
+    };
+    try {
+      const res = await publicArticleAPI(params);
+      message.success(res.message);
+      this.props.history.push("/home/article");
+    } catch (err) {
+      message.error("发布失败");
+    }
   };
 
   render() {
@@ -126,7 +144,16 @@ class Publish extends Component {
             </Upload>
           </Form.Item>
 
-          <Form.Item label={"内容"}>
+          <Form.Item
+            label={"内容"}
+            name={"content"}
+            rules={[
+              {
+                required: true,
+                message: "请输入内容",
+              },
+            ]}
+          >
             <ReactQuill
               placeholder={"请输入内容"}
               style={{ width: 600 }}

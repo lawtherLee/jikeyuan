@@ -29,7 +29,7 @@ class Article extends Component {
     status: -1,
     pages: {
       page: 1,
-      per_page: 1,
+      per_page: 5,
     },
     columns: [
       {
@@ -99,6 +99,7 @@ class Article extends Component {
         },
       },
     ],
+    filterParams: null,
   };
 
   radioChange = (val) => {
@@ -115,12 +116,14 @@ class Article extends Component {
       params.end_pubdate = values.time[1].format("YYYY-MM-DDD");
     }
     params.channel_id = values.channel_id;
+    console.log(params);
     const res = await getArticleListAPI({ ...params, ...this.state.pages });
     this.setState({
       articles: res.data.results,
       total: res.data.total_count,
       filterParams: params,
     });
+    console.log(this.state, params);
   };
 
   getAllChannels = async () => {
@@ -171,7 +174,7 @@ class Article extends Component {
           },
         },
         () => {
-          this.onPageChange(pages.page);
+          this.onPageChange(this.state.pages.page);
         },
       );
       message.success("删除成功");

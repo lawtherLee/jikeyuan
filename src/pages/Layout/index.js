@@ -71,7 +71,6 @@ class LayoutIndex extends Component {
   };
 
   render() {
-    console.log(123);
     const { menus } = this.state;
     return (
       <div className={styles.layout}>

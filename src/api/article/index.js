@@ -18,7 +18,16 @@ export const getArticleListAPI = (params) => {
  */
 export const delArticleAPI = (id) => {
   return request({
-    url: "/v1_0/mp/articles" + id,
+    url: "/v1_0/mp/articles/" + id,
     method: "delete",
+  });
+};
+
+export const publicArticleAPI = (data) => {
+  return request({
+    url: "/v1_0/mp/articles",
+    method: "post",
+    data,
+    params: {},
   });
 };
