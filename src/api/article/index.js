@@ -25,9 +25,8 @@ export const delArticleAPI = (id) => {
 
 export const publicArticleAPI = (data) => {
   return request({
-    url: "/v1_0/mp/articles",
+    url: "/v1_0/mp/articles?draft=" + data.draft,
     method: "post",
     data,
-    params: {},
   });
 };

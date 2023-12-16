@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Breadcrumb,
   Button,
@@ -19,6 +19,11 @@ import { baseURL } from "../../utils/request";
 import { publicArticleAPI } from "../../api/article";
 
 class Publish extends Component {
+  constructor() {
+    super();
+    this.formRef = createRef();
+  }
+
   state = {
     fileList: [],
     type: 1,
@@ -54,7 +59,12 @@ class Publish extends Component {
     });
   };
 
-  onSubmit = async ({ content, channel_id, type, title }) => {
+  onSubmit = async (values) => {
+    await this.onPublish(values);
+  };
+
+  // 抽离的公共提交方法
+  onPublish = async ({ content, channel_id, type, title, draft }) => {
     if (this.state.type !== this.state.fileList.length)
       return message.error("图片上传数量不对");
     const params = {
@@ -65,6 +75,7 @@ class Publish extends Component {
         type,
         images: this.state.fileList,
       },
+      draft: !!draft,
     };
     try {
       const res = await publicArticleAPI(params);
@@ -72,6 +83,17 @@ class Publish extends Component {
       this.props.history.push("/home/article");
     } catch (err) {
       message.error("发布失败");
+    }
+  };
+
+  // 存草稿
+  saveArticle = async () => {
+    try {
+      const values = await this.formRef.current.validateFields();
+      values.draft = true;
+      await this.onPublish(values);
+    } catch (err) {
+      message.error("信息请补全");
     }
   };
 
@@ -90,6 +112,7 @@ class Publish extends Component {
 
         {/*发布文章*/}
         <Form
+          ref={this.formRef}
           onFinish={this.onSubmit}
           name="basic"
           labelCol={{ span: 4 }}
@@ -164,6 +187,7 @@ class Publish extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            <Button onClick={this.saveArticle}>存为草稿</Button>
           </Form.Item>
         </Form>
 
