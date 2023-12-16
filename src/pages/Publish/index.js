@@ -1,11 +1,60 @@
 import React, { Component } from "react";
-import { Breadcrumb, Button, Divider, Form, Input, Radio, Upload } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Divider,
+  Form,
+  Image,
+  Input,
+  Modal,
+  Radio,
+  Upload,
+} from "antd";
 import styles from "./index.module.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import SelectChannel from "components/SelectChannel";
+import { baseURL } from "../../utils/request";
 
 class Publish extends Component {
+  state = {
+    fileList: [],
+    type: 1,
+    isModalOpen: false,
+    previewImg: "",
+  };
+
+  handleOk = () => {
+    this.handleCancel();
+  };
+  handleCancel = () => {
+    this.setState({
+      isModalOpen: false,
+    });
+  };
+  onPreview = (val) => {
+    console.log(val);
+    this.setState({
+      isModalOpen: true,
+      previewImg: val.response.data.url,
+    });
+  };
+
+  onFileChange = (file) => {
+    // console.log(file);
+    // always setState
+    this.setState({ fileList: [...file.fileList] });
+  };
+
+  // 封面数量变化
+  coverChange = (e) => {
+    this.setState({
+      type: e.target.value,
+    });
+  };
+
   render() {
+    const { fileList, type, previewImg } = this.state;
     return (
       <div className={styles.publish}>
         {/*面包屑*/}
@@ -32,18 +81,30 @@ class Publish extends Component {
             <Input />
           </Form.Item>
           <Form.Item label="频道">
-            <Input />
+            <SelectChannel />
           </Form.Item>
-          <Form.Item label="封面">
-            <Radio.Group>
+
+          <Form.Item initialValue={1} name={"type"} label="封面">
+            <Radio.Group onChange={this.coverChange}>
               <Radio value={1}>单图</Radio>
-              <Radio value={2}>三图</Radio>
-              <Radio value={3}>无图</Radio>
-            </Radio.Group>{" "}
+              <Radio value={3}>三图</Radio>
+              <Radio value={0}>无图</Radio>
+            </Radio.Group>
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <Upload listType="picture-card">上传</Upload>
+            <Upload
+              onChange={this.onFileChange}
+              fileList={fileList}
+              accept={".png,.jpg,.gif"}
+              name={"image"}
+              action={`${baseURL}v1_0/upload`}
+              listType="picture-card"
+              maxCount={type}
+              onPreview={this.onPreview}
+            >
+              上传
+            </Upload>
           </Form.Item>
 
           <Form.Item label={"内容"}>
@@ -59,6 +120,16 @@ class Publish extends Component {
             </Button>
           </Form.Item>
         </Form>
+
+        <Modal
+          footer={null}
+          title="预览"
+          open={this.state.isModalOpen}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Image src={previewImg} />
+        </Modal>
       </div>
     );
   }

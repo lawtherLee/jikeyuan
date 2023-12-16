@@ -3,8 +3,9 @@ import { getToken, removeToken } from "./storage";
 import { message } from "antd";
 import history from "./history";
 
+export const baseURL = "http://geek.itheima.net/";
 const instance = axios.create({
-  baseURL: "http://geek.itheima.net/",
+  baseURL,
   timeout: 5000,
 });
 
