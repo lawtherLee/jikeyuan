@@ -47,3 +47,16 @@ export const getArticleDetailAPI = (id) => {
     url: "/v1_0/mp/articles/" + id,
   });
 };
+
+/**
+ * 编辑文章
+ * @param target
+ * @returns {*}
+ */
+export const editArticleAPI = (target) => {
+  return request({
+    url: "/v1_0/mp/articles/" + target.id + "?draft=" + target.draft,
+    method: "put",
+    data: target,
+  });
+};

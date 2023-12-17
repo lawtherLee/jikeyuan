@@ -16,7 +16,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import SelectChannel from "components/SelectChannel";
 import { baseURL } from "../../utils/request";
-import { getArticleDetailAPI, publicArticleAPI } from "../../api/article";
+import {
+  editArticleAPI,
+  getArticleDetailAPI,
+  publicArticleAPI,
+} from "../../api/article";
 
 class Publish extends Component {
   constructor() {
@@ -59,11 +63,9 @@ class Publish extends Component {
     });
   };
 
+  // 提交
   onSubmit = async (values) => {
-    if (this.props.match.params.id) {
-    } else {
-      await this.onPublish(values);
-    }
+    await this.onPublish(values);
   };
 
   // 抽离的公共提交方法
@@ -81,11 +83,17 @@ class Publish extends Component {
       draft: !!draft,
     };
     try {
-      const res = await publicArticleAPI(params);
-      message.success(res.message);
-      this.props.history.push("/home/article");
+      if (this.props.match.params.id) {
+        await editArticleAPI({ ...params, id: this.props.match.params.id });
+        message.success("编辑成功");
+      } else {
+        const res = await publicArticleAPI(params);
+        message.success(res.message);
+      }
     } catch (err) {
       message.error("发布失败");
+    } finally {
+      this.props.history.push("/home/article");
     }
   };
 
@@ -111,10 +119,10 @@ class Publish extends Component {
         ...res.data,
         type: res.data.cover.type,
       });
-      // this.setState({
-      //   type: res.data.cover.images.length,
-      //   fileList: res.data.cover.images,
-      // });
+      this.setState({
+        type: res.data.cover.type,
+        // fileList: res.data.cover.images,
+      });
     }
   }
 
