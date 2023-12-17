@@ -60,7 +60,10 @@ class Publish extends Component {
   };
 
   onSubmit = async (values) => {
-    await this.onPublish(values);
+    if (this.props.match.params.id) {
+    } else {
+      await this.onPublish(values);
+    }
   };
 
   // 抽离的公共提交方法
@@ -97,11 +100,21 @@ class Publish extends Component {
     }
   };
 
+  // 配置编辑回显
   async componentDidMount() {
     const id = this.props.match.params.id;
     if (id) {
       const res = await getArticleDetailAPI(this.props.match.params.id);
-      console.log(res);
+      console.log(res.data);
+      // 组件回显的方法
+      this.formRef.current.setFieldsValue({
+        ...res.data,
+        type: res.data.cover.type,
+      });
+      // this.setState({
+      //   type: res.data.cover.images.length,
+      //   fileList: res.data.cover.images,
+      // });
     }
   }
 
@@ -125,6 +138,9 @@ class Publish extends Component {
           name="basic"
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 10 }}
+          initialValues={{
+            type: type,
+          }}
         >
           <Form.Item
             label="标题"
@@ -152,7 +168,7 @@ class Publish extends Component {
             <SelectChannel />
           </Form.Item>
 
-          <Form.Item initialValue={1} name={"type"} label="封面">
+          <Form.Item name={"type"} label="封面">
             <Radio.Group onChange={this.coverChange}>
               <Radio value={1}>单图</Radio>
               <Radio value={3}>三图</Radio>
@@ -193,7 +209,7 @@ class Publish extends Component {
 
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              {this.props.match.params.id ? "修改文章" : "发布文章"}
             </Button>
             <Button onClick={this.saveArticle}>存为草稿</Button>
           </Form.Item>
